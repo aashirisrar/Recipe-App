@@ -11,8 +11,7 @@
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous" />
 
     <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍕</text></svg>">
-
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍕</text></svg>" />
 
     <title>Recipe Search App</title>
 </head>
@@ -27,9 +26,7 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
+
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
@@ -41,18 +38,19 @@
     </nav>
 
     <main class="container mt-4">
-        <h2 class="text-center">Recipe Search App</h2>
+        <h2 class="text-center">🍕Recipe Search App</h2>
         <form>
             <div class="form-group">
                 <label for="word">Search for a Recipe</label>
                 <input type="text" class="form-control" id="word" aria-describedby="emailHelp" />
-                <small class="form-text text-muted">We'll give the best recipes from all over the
-                    world.</small>
+                <small class="form-text text-muted">We'll give the best recipes from all over the world.</small>
             </div>
             <button id="submit" type="submit" class="btn btn-primary">
                 Submit
             </button>
         </form>
+
+        <p id="result" class="mt-3"></p>
     </main>
 
     <!-- Optional JavaScript; choose one of the two! -->
@@ -75,18 +73,17 @@
             r.then((response) => {
                 return response.json();
             }).then((resp) => {
-                console.log(resp);
                 let htmlstr = `You searched for the recipe of: <b> ${word.value} </b>
             `;
 
                 htmlstr += "<ol>";
-                for (let i = 0; i < resp["hits"].length; i++) {
+                for (let i = 0; i < resp.length; i++) {
                     htmlstr += `<br>`;
-                    htmlstr += `<li>${resp["hits"][i]["fields"].item_name}</li>`;
+                    htmlstr += `<li><b>${resp[i].title}</b></li>`;
                     htmlstr += "<ul>";
-                    htmlstr += `<li>Number of calories: <b>${resp["hits"][i]["fields"].nf_calories}</b></li>`;
-                    htmlstr += `<li>Serving quantity: <b>${resp["hits"][i]["fields"].nf_serving_size_qty}</b></li>`;
-                    htmlstr += `<li>Number of fats: <b>${resp["hits"][i]["fields"].nf_total_fat}</b></li>`;
+                    htmlstr += `<li><b>Quantity: </b>${resp[i].servings}</li>`;
+                    htmlstr += `<li><b>Ingredients: </b>${resp[i].ingredients}</li>`;
+                    htmlstr += `<li><b>Instructions: </b>${resp[i].instructions}</li>`;
                     htmlstr += "</ul>";
                 }
                 htmlstr += "</ol>";
